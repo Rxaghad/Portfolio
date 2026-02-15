@@ -56,18 +56,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 5%;
+            padding: 1rem 5%;
             background: var(--nav-bg);
             backdrop-filter: blur(15px);
             z-index: 1000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.3s;
         }
 
         nav.scrolled {
-            padding: 0.8rem 5%;
+            padding: 0.7rem 5%;
             background: rgba(2, 6, 23, 0.95);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
         .logo {
@@ -91,54 +90,73 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: 0.3s;
-            opacity: 0.7;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: 0.3s;
+            opacity: 0.8;
         }
 
         .nav-links a:hover {
             opacity: 1;
             color: var(--accent);
+            text-shadow: 0 0 10px var(--accent-glow);
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: var(--accent);
+            z-index: 2001;
         }
+
+        /* Side Menu for Mobile */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 2000;
+            padding: 80px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .side-menu.active { right: 0; }
+        .side-menu a { text-decoration: none; color: var(--text); font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
+        
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1999;
+            display: none;
+        }
+        .overlay.active { display: block; }
 
         .lang-btn {
             background: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
-            padding: 6px 18px;
-            border-radius: 8px;
+            padding: 5px 15px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 0.85rem;
-            font-weight: 600;
             transition: 0.3s;
         }
 
         .lang-btn:hover {
             background: var(--accent);
             color: #000;
-            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         /* Reveal Animation on Scroll */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-            will-change: transform, opacity;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
         }
 
         .reveal.active {
@@ -156,7 +174,7 @@
         }
 
         .hero-content {
-            max-width: 850px;
+            max-width: 800px;
             z-index: 2;
         }
 
@@ -175,67 +193,66 @@
 
         .hero-blob {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            top: 10%;
-            right: -5%;
-            filter: blur(80px);
+            top: 20%;
+            right: 5%;
+            filter: blur(60px);
             z-index: 1;
-            animation: move 20s infinite alternate;
+            animation: pulse 10s infinite alternate;
         }
 
-        @keyframes move {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100px, 50px); }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(1.3); opacity: 0.6; }
         }
 
         /* Section Global */
-        .section { padding: 120px 10%; }
+        .section { padding: 100px 10%; }
         
         .section-title {
-            font-size: clamp(2.2rem, 5vw, 3.5rem);
-            margin-bottom: 4rem;
-            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 3rem;
+            color: var(--text);
         }
 
-        .section-title span { color: var(--accent); }
+        .section-title span.accent-part { color: var(--accent); }
 
         /* Glass Cards */
         .card {
             background: var(--card);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 3.5rem;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-12px);
+            transform: translateY(-10px);
             border-color: var(--accent);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 245, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 245, 255, 0.1);
         }
 
         /* Project Carousel */
         .carousel-container {
             width: 100%;
             aspect-ratio: 16 / 9;
-            background: #0a0f1e;
-            border-radius: 20px;
+            background: #000;
+            border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .carousel-track {
             display: flex;
             height: 100%;
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s ease-in-out;
         }
 
         .carousel-slide {
@@ -243,75 +260,70 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
         }
 
         .carousel-slide img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 12px;
         }
 
         /* Buttons */
-        .cta-group { display: flex; gap: 1.5rem; margin-top: 3rem; }
+        .cta-group { display: flex; gap: 1rem; margin-top: 2.5rem; }
 
         .btn {
-            padding: 1.1rem 2.8rem;
-            border-radius: 14px;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 0.75rem;
+            transition: 0.3s;
             cursor: pointer;
-            font-size: 1rem;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--accent), var(--accent-purple));
-            color: #020617;
+            color: #000;
         }
 
         .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px var(--accent-glow);
+            filter: brightness(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--accent-glow);
         }
 
         .btn-outline {
-            border: 1px solid rgba(0, 245, 255, 0.4);
+            border: 1px solid var(--accent);
             color: var(--accent);
         }
 
         .btn-outline:hover {
             background: rgba(0, 245, 255, 0.1);
-            border-color: var(--accent);
-            transform: translateY(-5px);
         }
 
         /* Skills Grid */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 1.2rem;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
         }
 
         .skill-tag {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 1rem;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem;
+            border-radius: 10px;
             text-align: center;
-            font-size: 0.95rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s ease;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            transition: 0.3s;
         }
 
         .skill-tag:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(0, 245, 255, 0.08);
-            transform: scale(1.05);
+            background: rgba(0, 245, 255, 0.05);
         }
 
         .carousel-nav {
@@ -320,18 +332,17 @@
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
             transform: translateY(-50%);
             pointer-events: none;
         }
 
         .c-btn {
-            background: rgba(2, 6, 23, 0.6);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.5);
+            border: none;
             color: white;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
             pointer-events: auto;
@@ -341,22 +352,21 @@
             transition: 0.3s;
         }
 
-        .c-btn:hover { 
-            background: var(--accent); 
-            color: #020617; 
-            transform: scale(1.1);
-        }
+        .c-btn:hover { background: var(--accent); color: black; }
 
         /* RTL Adjustments */
         html[dir="rtl"] .hero { text-align: right; }
-        html[dir="rtl"] .exp-item { border-right: 3px solid var(--accent); border-left: none; padding-right: 2rem; padding-left: 0; text-align: right;}
-        html[dir="ltr"] .exp-item { border-left: 3px solid var(--accent); padding-left: 2rem; text-align: left;}
+        html[dir="rtl"] .exp-item { border-right: 2px solid var(--accent); border-left: none; padding-right: 1.5rem; padding-left: 0; text-align: right;}
+        html[dir="ltr"] .exp-item { border-left: 2px solid var(--accent); padding-left: 1.5rem; text-align: left;}
+        html[dir="rtl"] .side-menu { right: auto; left: -100%; border-left: none; border-right: 1px solid rgba(255,255,255,0.1); }
+        html[dir="rtl"] .side-menu.active { left: 0; }
 
         @media (max-width: 768px) {
             .hero { padding: 0 5%; }
             .nav-links { display: none; }
-            .section { padding: 80px 5%; }
-            .card { padding: 2rem; }
+            .menu-toggle { display: block; }
+            .section { padding: 60px 5%; }
+            .card { padding: 1.5rem; }
             .cta-group { flex-direction: column; }
         }
     </style>
@@ -367,6 +377,7 @@
 
     <nav id="navbar">
         <div class="logo">Raghad</div>
+        <!-- Desktop Nav -->
         <div class="nav-links">
             <a href="#about" id="nav1">About</a>
             <a href="#experience" id="nav2">Experience</a>
@@ -375,15 +386,34 @@
             <a href="#contact" id="nav5">Contact</a>
             <button class="lang-btn" onclick="toggleLang()" id="langBtn">عربي</button>
         </div>
+        <!-- Mobile Toggle -->
+        <div class="menu-toggle" onclick="toggleSideMenu()">
+            <i data-lucide="menu" id="menuIcon"></i>
+        </div>
     </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="overlay" id="menuOverlay" onclick="toggleSideMenu()"></div>
+
+    <!-- Sidebar Menu -->
+    <div class="side-menu" id="sideMenu">
+        <a href="#about" onclick="toggleSideMenu()" id="m_nav1">About</a>
+        <a href="#experience" onclick="toggleSideMenu()" id="m_nav2">Experience</a>
+        <a href="#projects" onclick="toggleSideMenu()" id="m_nav3">Projects</a>
+        <a href="#skills" onclick="toggleSideMenu()" id="m_nav4">Skills</a>
+        <a href="#contact" onclick="toggleSideMenu()" id="m_nav5">Contact</a>
+        <div style="margin-top: 20px;">
+            <button class="lang-btn" onclick="toggleLang(); toggleSideMenu();" id="m_langBtn">عربي</button>
+        </div>
+    </div>
 
     <div class="hero-blob"></div>
 
     <section class="hero">
         <div class="hero-content reveal active">
             <h1 id="heroTitle">Hi, I'm <br><span id="heroName">Raghad Ismail Abdullah</span></h1>
-            <div style="font-size: clamp(1.2rem, 3vw, 2.2rem); color: var(--text-muted); margin-bottom: 2rem; font-weight: 500;">
-                <span id="typing"></span><span style="color:var(--accent); animation: blink 1s infinite;">|</span>
+            <div style="font-size: clamp(1.2rem, 3vw, 2rem); color: var(--text-muted); margin-bottom: 2rem;">
+                <span id="typing"></span><span style="color:var(--accent)">|</span>
             </div>
             <div class="cta-group">
                 <a href="assets/Raghad-Abdullah-CV2.pdf" class="btn btn-primary" id="cvBtn" target="_blank">
@@ -397,9 +427,9 @@
     </section>
 
     <section class="section" id="about">
-        <h2 class="section-title reveal"><span id="aboutTitle">About</span> <span id="aboutSub">Me</span></h2>
+        <h2 class="section-title reveal"><span id="aboutTitle">About</span> <span id="aboutSub" class="accent-part">Me</span></h2>
         <div class="card reveal">
-            <p id="aboutText" style="font-size: 1.3rem; color: var(--text-muted); max-width: 1000px; line-height: 1.8;">
+            <p id="aboutText" style="font-size: 1.2rem; color: var(--text-muted); max-width: 900px;">
                 I am Raghad Ismail Abdullah, a Cybersecurity diploma graduate with First-Class Honors from King Abdulaziz University. 
                 I specialize in threat analysis, incident response, and secure web development.
             </p>
@@ -410,9 +440,9 @@
         <h2 class="section-title reveal" id="expTitle">Professional Experience</h2>
         <div class="card reveal">
             <div class="exp-item">
-                <h3 style="color: var(--accent); font-size: 1.8rem; margin-bottom: 0.5rem;">IT Trainee</h3>
-                <p style="font-weight: 700; margin-bottom: 1.5rem; opacity: 0.8;">SERB Group | 2025</p>
-                <ul id="expList" style="list-style: none; color: var(--text-muted); font-size: 1.1rem;">
+                <h3 style="color: var(--accent); font-size: 1.5rem;">IT Trainee</h3>
+                <p style="font-weight: 600; margin-bottom: 1rem;">SERB Group | 2025</p>
+                <ul id="expList" style="list-style: none; color: var(--text-muted);">
                     <!-- Dynamic -->
                 </ul>
             </div>
@@ -422,12 +452,12 @@
     <section class="section" id="projects">
         <h2 class="section-title reveal" id="projMainTitle">Featured Projects</h2>
         <div class="card reveal">
-            <h3 id="projTitle" style="font-size: 2.5rem; margin-bottom: 2rem; text-align: center; color: var(--accent);">PhishBlock</h3>
+            <h3 id="projTitle" style="font-size: 2rem; margin-bottom: 1.5rem; text-align: center;">PhishBlock</h3>
             
             <div class="carousel-container">
                 <div class="carousel-track" id="track">
-                    <div class="carousel-slide"><img src="assets/phishblock.png" alt="PhishBlock Preview 1"></div>
-                    <div class="carousel-slide"><img src="assets/phishblock1.png" alt="PhishBlock Preview 2"></div>
+                    <div class="carousel-slide"><img src="assets/phishblock.png" alt="PhishBlock View 1"></div>
+                    <div class="carousel-slide"><img src="assets/phishblock1.png" alt="PhishBlock View 2"></div>
                 </div>
                 <div class="carousel-nav">
                     <button class="c-btn" onclick="moveSlide(-1)"><i data-lucide="chevron-left"></i></button>
@@ -435,12 +465,12 @@
                 </div>
             </div>
 
-            <p id="projText" style="color: var(--text-muted); margin-bottom: 2.5rem; text-align: center; max-width: 850px; margin-inline: auto; font-size: 1.15rem; line-height: 1.7;">
+            <p id="projText" style="color: var(--text-muted); margin-bottom: 2rem; text-align: center; max-width: 800px; margin-inline: auto;">
                 PhishBlock is an interactive platform that analyzes malicious links and provides critical educational resources about phishing attacks.
             </p>
 
             <div style="display: flex; gap: 1rem; justify-content: center;">
-                <a href="https://rxaghad.github.io/phishblock/" class="btn btn-primary" target="_blank" id="demoBtn">Live Demo</a>
+                <a href="https://rxaghad.github.io/phishblock/" class="btn btn-primary" style="padding: 0.6rem 1.5rem;" target="_blank" id="demoBtn">Live Demo</a>
             </div>
         </div>
     </section>
@@ -454,11 +484,10 @@
         </div>
     </section>
 
-    <section class="section" id="contact" style="padding-bottom: 180px;">
+    <section class="section" id="contact" style="padding-bottom: 150px;">
         <h2 class="section-title reveal" id="contactTitle">Get In Touch</h2>
         <div class="card reveal" style="text-align: center;">
-            <p style="margin-bottom: 2.5rem; color: var(--text-muted); font-size: 1.2rem;" id="contactSub">Let's build something secure together.</p>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
                 <a href="https://wa.me/0545065726" target="_blank" class="btn btn-outline"><i data-lucide="message-circle"></i> WhatsApp</a>
                 <a href="mailto:rghad.ab2@gmail.com" class="btn btn-outline"><i data-lucide="mail"></i> Email</a>
                 <a href="https://www.linkedin.com/in/raghad-abdullah-96181b2a9" target="_blank" class="btn btn-outline"><i data-lucide="linkedin"></i> LinkedIn</a>
@@ -469,38 +498,48 @@
     <script>
         lucide.createIcons();
 
-        // --- Custom Scroll Reveal ---
+        // --- Side Menu Logic ---
+        function toggleSideMenu() {
+            const menu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('menuOverlay');
+            const icon = document.getElementById('menuIcon');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if(menu.classList.contains('active')) {
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        // --- Scroll Logic ---
         const grid = document.getElementById('grid');
         const navbar = document.getElementById('navbar');
         const reveals = document.querySelectorAll('.reveal');
 
-        function handleScroll() {
-            // Navbar effect
-            if (window.scrollY > 80) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
 
-            // Parallax Grid
-            grid.style.transform = `translateY(${window.scrollY * 0.1}px)`;
+            grid.style.backgroundPosition = `0 ${window.scrollY * 0.2}px`;
 
-            // Elements Reveal
             reveals.forEach(reveal => {
                 const windowHeight = window.innerHeight;
                 const revealTop = reveal.getBoundingClientRect().top;
-                const revealPoint = 120;
+                const revealPoint = 150;
 
                 if (revealTop < windowHeight - revealPoint) {
                     reveal.classList.add('active');
                 }
             });
-        }
+        });
 
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('load', handleScroll);
-
-        // --- Content & Multi-language ---
+        // --- Content & Logic ---
         let lang = "en";
         const typingEl = document.getElementById("typing");
         
@@ -515,14 +554,14 @@
                 aboutSub: "Me",
                 aboutText: "I am Raghad Ismail Abdullah, a Cybersecurity diploma graduate with First-Class Honors from King Abdulaziz University. I specialize in threat analysis, incident response, and secure web development.",
                 expTitle: "Professional Experience",
-                expList: ["Technical support and system setup.", "Active Directory management.", "Network configuration (Routers/Switches).", "Microsoft Admin Portal administration."],
+                expList: ["Technical support and system setup.", "Active Directory management.", "Network configuration.", "Microsoft Admin Portal administration."],
                 projMainTitle: "Featured Projects",
                 projText: "PhishBlock is an interactive platform that analyzes malicious links and provides critical educational resources about phishing attacks.",
                 demoBtn: "Live Demo",
                 skillsTitle: "Technical Arsenal",
-                skills: ["Network Security", "Threat Analysis", "Pentesting", "Web Development", "HTML/CSS", "JavaScript", "Python Basics", "Linux (Ubuntu)"],
+                skills: ["Network Security", "Threat Analysis", "Pentesting", "Web Dev", "HTML/CSS", "JavaScript", "Git/GitHub", "Linux"],
                 contactTitle: "Get In Touch",
-                contactSub: "Let's build something secure together."
+                langText: "عربي"
             },
             ar: {
                 heroTitle: "مرحباً، أنا <br><span>رغد إسماعيل عبدالله</span>",
@@ -534,18 +573,17 @@
                 aboutSub: "أنا",
                 aboutText: "أنا رغد إسماعيل عبدالله، خريجة دبلوم أمن سيبراني بمرتبة الشرف الأولى من جامعة الملك عبدالعزيز. متخصصة في تحليل التهديدات والاستجابة للحوادث وتطوير المواقع الآمنة.",
                 expTitle: "الخبرة المهنية",
-                expList: ["الدعم الفني وإعداد الأنظمة والبرامج.", "إدارة حسابات المستخدمين (Active Directory).", "تكوين وإعداد أجهزة الشبكة.", "إدارة بوابة Microsoft Admin Portal."],
+                expList: ["الدعم الفني وإعداد الأنظمة.", "إدارة Active Directory.", "تكوين وإعداد الشبكات.", "إدارة بوابة Microsoft Admin."],
                 projMainTitle: "المشاريع المميزة",
-                projText: "PhishBlock هي منصة تفاعلية تحلل الروابط الخبيثة وتوفر موارد تعليمية شاملة حول هجمات التصيد الاحتيالي.",
+                projText: "PhishBlock هي منصة تفاعلية تحلل الروابط الخبيثة وتوفر موارد تعليمية مهمة حول هجمات التصيد الاحتيالي.",
                 demoBtn: "عرض المشروع",
                 skillsTitle: "المهارات التقنية",
-                skills: ["أمن الشبكات", "تحليل التهديدات", "اختبار الاختراق", "تطوير الويب", "HTML/CSS", "JavaScript", "أساسيات بايثون", "أساسيات لينكس"],
-                contactTitle: "لنبدأ التواصل",
-                contactSub: "دعنا نبني شيئاً آمناً ومميزاً معاً."
+                skills: ["أمن الشبكات", "تحليل التهديدات", "اختبار الاختراق", "تطوير الويب", "HTML/CSS", "JavaScript", "Git/GitHub", "أساسيات لينكس"],
+                contactTitle: "اتصل بي",
+                langText: "English"
             }
         };
 
-        // --- Carousel Logic ---
         let slideIdx = 0;
         function moveSlide(d) {
             const track = document.getElementById('track');
@@ -553,7 +591,6 @@
             track.style.transform = `translateX(-${slideIdx * 100}%)`;
         }
 
-        // --- Typing Animation ---
         let charIdx = 0;
         let wordIdx = 0;
         let isDeleting = false;
@@ -570,15 +607,15 @@
                 charIdx++;
             }
 
-            let speed = isDeleting ? 60 : 120;
+            let speed = isDeleting ? 50 : 100;
 
             if (!isDeleting && charIdx === currentWord.length) {
-                speed = 2500;
+                speed = 2000;
                 isDeleting = true;
             } else if (isDeleting && charIdx === 0) {
                 isDeleting = false;
                 wordIdx = (wordIdx + 1) % words.length;
-                speed = 600;
+                speed = 500;
             }
 
             setTimeout(type, speed);
@@ -598,12 +635,17 @@
             document.getElementById('demoBtn').innerText = c.demoBtn;
             document.getElementById('skillsTitle').innerText = c.skillsTitle;
             document.getElementById('contactTitle').innerText = c.contactTitle;
-            document.getElementById('contactSub').innerText = c.contactSub;
             
-            for(let i=1; i<=5; i++) document.getElementById(`nav${i}`).innerText = c.nav[i-1];
+            document.getElementById('langBtn').innerText = c.langText;
+            document.getElementById('m_langBtn').innerText = c.langText;
+
+            for(let i=1; i<=5; i++) {
+                document.getElementById(`nav${i}`).innerText = c.nav[i-1];
+                document.getElementById(`m_nav${i}`).innerText = c.nav[i-1];
+            }
 
             const expList = document.getElementById('expList');
-            expList.innerHTML = c.expList.map(item => `<li style="margin-bottom:1rem; display:flex; align-items:flex-start; gap:10px;"><span style="color:var(--accent)">▸</span> ${item}</li>`).join('');
+            expList.innerHTML = c.expList.map(item => `<li style="margin-bottom:0.8rem">▹ ${item}</li>`).join('');
 
             const skillsGrid = document.getElementById('skillsGrid');
             skillsGrid.innerHTML = c.skills.map(s => `<div class="skill-tag">${s}</div>`).join('');
@@ -614,17 +656,12 @@
         function toggleLang() {
             lang = lang === "en" ? "ar" : "en";
             document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-            document.getElementById('langBtn').innerText = lang === "en" ? "عربي" : "English";
             updateContent();
             wordIdx = 0; charIdx = 0; isDeleting = false;
-            handleScroll(); // Refresh reveals for current direction
         }
 
-        // Initialize
         updateContent();
         type();
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </script>
 </body>
 </html>
