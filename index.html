@@ -252,7 +252,7 @@
         .carousel-track {
             display: flex;
             height: 100%;
-            transition: transform 0.6s ease-in-out;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .carousel-slide {
@@ -588,7 +588,12 @@
         function moveSlide(d) {
             const track = document.getElementById('track');
             slideIdx = (slideIdx + d + 2) % 2;
-            track.style.transform = `translateX(-${slideIdx * 100}%)`;
+            
+            // Fix for RTL: in RTL, positive index moves the track to the right
+            const isRTL = document.documentElement.dir === "rtl";
+            const multiplier = isRTL ? 1 : -1;
+            
+            track.style.transform = `translateX(${slideIdx * 100 * multiplier}%)`;
         }
 
         let charIdx = 0;
@@ -650,6 +655,10 @@
             const skillsGrid = document.getElementById('skillsGrid');
             skillsGrid.innerHTML = c.skills.map(s => `<div class="skill-tag">${s}</div>`).join('');
             
+            // Reset slide position on lang change to avoid visual glitches
+            slideIdx = 0;
+            document.getElementById('track').style.transform = `translateX(0)`;
+
             lucide.createIcons();
         }
 
